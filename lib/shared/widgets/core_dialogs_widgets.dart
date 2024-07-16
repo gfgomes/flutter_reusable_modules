@@ -12,50 +12,66 @@ import 'package:flutter/material.dart';
 ///
 ///O parâmetro [affirmativeOtionColor] é opcional e tem o valor padrão `Colors.green`. Ele representa a cor do botão afirmativo.
 ///
+// Exemplo de uso:
 /*
 showConfirmationDialog(
-        context,
-        content: "Deseja remover esta imagem?",
-        affirmativeOtionColor: Colors.red,
-        affirmativeOption: 'Remover',
-      ).then((optionSelected) {
-        if (optionSelected) {
-          se true, faz alguma coisa
-        } 
-        else{
-          se false, faz outra coisa
-        }
-      });
-    }
- */
+  context,
+  title: "Confirmação",
+  content: "Deseja realmente excluir esse item?",
+  affirmativeOption: "Excluir",
+  affirmativeOptionColor: Colors.red,
+  negativeOption: "Cancelar",
+  negativeOptionColor: Colors.blue,
+).then((confirmed) {
+  if (confirmed) {
+    ///Se confirmado, executa a ação de exclusão
+  } else {
+    ///Se cancelado, não faz nada ou exibe uma mensagem
+  }
+});
+*/
+
 Future<dynamic> showConfirmationDialog(
   BuildContext context, {
   String title = "Atenção!",
   String content = "Você realmente deseja executar essa operação?",
   String affirmativeOption = "Confirmar",
   String negativeOption = "Cancelar",
-  Color affirmativeOtionColor = Colors.green,
+  Color affirmativeOptionColor = Colors.green,
+  Color negativeOptionColor = Colors.red,
+  Color dialogBackgroundColor = Colors.white,
 }) {
   return showDialog(
     context: context,
     builder: (context) {
-      return AlertDialog(title: Text(title), content: Text(content), actions: [
-        TextButton(
-          onPressed: () {
-            Navigator.pop(context, false);
-          },
-          child: Text(negativeOption),
-        ),
-        TextButton(
+      return AlertDialog(
+        backgroundColor: dialogBackgroundColor,
+        title: Text(title),
+        content: Text(content),
+        actions: [
+          TextButton(
+            onPressed: () {
+              Navigator.pop(context, false);
+            },
+            child: Text(
+              negativeOption,
+              style: TextStyle(color: negativeOptionColor),
+            ),
+          ),
+          TextButton(
             onPressed: () {
               Navigator.pop(context, true);
             },
             child: Text(
               affirmativeOption.toUpperCase(),
               style: TextStyle(
-                  color: affirmativeOtionColor, fontWeight: FontWeight.bold),
-            )),
-      ]);
+                color: affirmativeOptionColor,
+                fontWeight: FontWeight.bold,
+              ),
+            ),
+          ),
+        ],
+      );
     },
   );
 }
